@@ -1,68 +1,91 @@
-const CACHE_NAME = 'siddha-pathiyam-v1';
-const urlsToCache = [
+/* ═══════════════════════════════════════════════════
+   Siddha Pathiyam — Service Worker v2
+   Strategy: cache-first for assets, stale-while-revalidate for fonts
+   ═══════════════════════════════════════════════════ */
+
+const CACHE_VERSION = 'pathiyam-v2';
+const FONT_CACHE    = 'pathiyam-fonts-v1';
+
+const CORE_ASSETS = [
   '/',
   '/index.html',
-  '/pathiyam-regimen.pdf',
   '/manifest.json',
-  'https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&display=swap'
+  '/pathiyam-regimen.pdf',
 ];
 
-// Install event - cache files
+const FONT_ORIGINS = [
+  'https://fonts.googleapis.com',
+  'https://fonts.gstatic.com',
+];
+
+// ── Install: cache core assets ───────────────────
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
+    caches.open(CACHE_VERSION)
+      .then(cache => cache.addAll(CORE_ASSETS))
+      .then(() => self.skipWaiting())
   );
 });
 
-// Fetch event - serve from cache when offline
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-
-        // Clone the request
-        const fetchRequest = event.request.clone();
-
-        return fetch(fetchRequest).then(response => {
-          // Check if valid response
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-          }
-
-          // Clone the response
-          const responseToCache = response.clone();
-
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(event.request, responseToCache);
-            });
-
-          return response;
-        });
-      })
-  );
-});
-
-// Activate event - clean up old caches
+// ── Activate: clear old caches ───────────────────
 self.addEventListener('activate', event => {
-  const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
+    caches.keys().then(keys =>
+      Promise.all(
+        keys
+          .filter(k => k !== CACHE_VERSION && k !== FONT_CACHE)
+          .map(k => caches.delete(k))
+      )
+    ).then(() => self.clients.claim())
   );
 });
+
+// ── Fetch: routing strategies ────────────────────
+self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+
+  // Fonts: stale-while-revalidate
+  if (FONT_ORIGINS.some(o => url.origin === new URL(o).origin)) {
+    event.respondWith(staleWhileRevalidate(event.request, FONT_CACHE));
+    return;
+  }
+
+  // Everything else: cache-first, fall back to network
+  if (event.request.method === 'GET') {
+    event.respondWith(cacheFirstStrategy(event.request));
+  }
+});
+
+// ── Helper: cache-first ──────────────────────────
+async function cacheFirstStrategy(request) {
+  const cached = await caches.match(request);
+  if (cached) return cached;
+
+  try {
+    const response = await fetch(request);
+    if (response.ok && response.type !== 'opaque') {
+      const cache = await caches.open(CACHE_VERSION);
+      cache.put(request, response.clone());
+    }
+    return response;
+  } catch {
+    // Offline fallback for navigation requests
+    if (request.mode === 'navigate') {
+      return caches.match('/index.html');
+    }
+    return new Response('Offline', { status: 503 });
+  }
+}
+
+// ── Helper: stale-while-revalidate ──────────────
+async function staleWhileRevalidate(request, cacheName) {
+  const cache  = await caches.open(cacheName);
+  const cached = await cache.match(request);
+
+  const fetchPromise = fetch(request).then(response => {
+    if (response.ok) cache.put(request, response.clone());
+    return response;
+  }).catch(() => null);
+
+  return cached || fetchPromise;
+}
