@@ -1,688 +1,622 @@
 <!DOCTYPE html>
 <html lang="ta">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4f6f52">
-    <meta name="description" content="Siddha Dispensary Regimen - பத்தியம்">
-    <title>சித்த வைத்தியச்சாலை - பத்தியம்</title>
-    <link rel="manifest" href="manifest.json">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1C3A2D">
+  <meta name="description" content="சித்த வைத்தியச்சாலை பத்தியம் — Siddha Dispensary Regimen">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="பத்தியம்">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <title>சித்த வைத்தியச்சாலை — பத்தியம்</title>
 
-        :root {
-            --bg-main: #F4E9D8;
-            --text-primary: #3E2C1C;
-            --header-green: #4f6f52;
-            --restricted: #C46A3A;
-            --allowed-bg: #F9F6F1;
-            --shadow: rgba(62, 44, 28, 0.15);
-        }
+  <!-- Early language init: runs before paint, prevents FOUC -->
+  <script>
+    (function(){
+      var l=localStorage.getItem('pathiyam-lang')||'ta';
+      document.documentElement.setAttribute('data-lang',l);
+      document.documentElement.lang=l;
+    })();
+  </script>
 
-        body {
-            font-family: 'Noto Sans Tamil', 'Cormorant Garamond', serif;
-            background: var(--bg-main);
-            color: var(--text-primary);
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 20px;
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(79, 111, 82, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(196, 106, 58, 0.03) 0%, transparent 50%);
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Noto+Sans+Tamil:wght@400;600;700&display=swap" rel="stylesheet">
 
-        body.en {
-            font-family: 'Cormorant Garamond', 'Noto Sans Tamil', serif;
-        }
+  <style>
+    /* ── Variables ────────────────────────────────── */
+    :root {
+      --parch:    #F5EDDB;
+      --card:     #FFFEF9;
+      --forest:   #1C3A2D;
+      --forest2:  #2A5440;
+      --brick:    #8C3214;
+      --brick2:   #B04020;
+      --gold:     #B87B2E;
+      --gold-lt:  #D4A55A;
+      --text:     #231408;
+      --muted:    #7A5C3C;
+      --border:   rgba(35,20,8,.09);
+      --sh-sm:    0 2px 10px rgba(35,20,8,.07);
+      --sh-md:    0 6px 28px rgba(35,20,8,.11);
+      --sh-lg:    0 16px 52px rgba(35,20,8,.16);
+      --r:        18px;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            animation: fadeIn 0.6s ease-out;
-        }
+    /* ── Reset ────────────────────────────────────── */
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    body {
+      font-family:'Noto Sans Tamil',Georgia,serif;
+      background:var(--parch);
+      color:var(--text);
+      line-height:1.65;
+      min-height:100vh;
+      background-image:
+        radial-gradient(ellipse at 8% 0%,rgba(27,58,45,.045) 0%,transparent 55%),
+        radial-gradient(ellipse at 92% 100%,rgba(140,50,20,.03) 0%,transparent 55%);
+    }
 
-        /* Header */
-        .header {
-            text-align: center;
-            padding: 30px 20px;
-            background: var(--header-green);
-            color: var(--allowed-bg);
-            border-radius: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 24px var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
+    /* ── Language switching (CSS-driven, zero-JS flash) ── */
+    /* Default: English hidden */
+    .e{display:none!important}
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(249, 246, 241, 0.1) 0%, transparent 70%);
-            animation: float 20s infinite linear;
-        }
+    /* English mode */
+    [data-lang="en"] .t{display:none!important}
+    [data-lang="en"] .e{display:revert!important}
+    /* Fix inline-flex chips */
+    [data-lang="en"] .cat-chip.e{display:inline-flex!important}
+    /* Fix inline spans */
+    [data-lang="en"] span.e{display:inline!important}
 
-        @keyframes float {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+    /* Transition fade helper */
+    .fading .t,.fading .e{opacity:0!important}
+    .t,.e{transition:opacity .13s ease}
 
-        .header-content {
-            position: relative;
-            z-index: 1;
-        }
+    /* ── Topbar ───────────────────────────────────── */
+    .topbar {
+      position:sticky;top:0;z-index:200;
+      background:rgba(245,237,219,.93);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--border);
+      padding:10px 18px;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+    }
 
-        .title {
-            font-size: clamp(1.8rem, 5vw, 2.8rem);
-            font-weight: 700;
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
-        }
+    .tb-brand{
+      font-size:.88rem;font-weight:700;color:var(--forest);
+      white-space:nowrap;letter-spacing:.2px;
+    }
+    .tb-brand .t{font-family:'Noto Sans Tamil',serif}
+    .tb-brand .e{font-family:'Playfair Display',serif}
 
-        .subtitle {
-            font-size: clamp(1.3rem, 4vw, 2rem);
-            font-weight: 600;
-            opacity: 0.95;
-        }
+    .tb-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
 
-        /* Language Toggle */
-        .lang-toggle {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 0 30px;
-        }
+    /* Language pill */
+    .lang-pill{
+      display:flex;
+      background:rgba(27,58,45,.10);
+      border-radius:999px;padding:3px;gap:2px;
+    }
+    .lang-pill button{
+      padding:5px 14px;border:none;background:transparent;
+      border-radius:999px;font-size:.82rem;font-weight:700;
+      color:var(--forest);cursor:pointer;
+      font-family:'Noto Sans Tamil',serif;
+      transition:background .2s,color .2s,box-shadow .2s;
+      line-height:1.4;
+    }
+    .lang-pill button.active{
+      background:var(--forest);color:#F5EDDB;
+      box-shadow:0 2px 8px rgba(27,58,45,.30);
+    }
+    .lang-pill button:not(.active):hover{background:rgba(27,58,45,.08)}
 
-        .lang-btn {
-            padding: 12px 30px;
-            border: 2px solid var(--header-green);
-            background: transparent;
-            color: var(--text-primary);
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
+    /* Download button */
+    .dl-btn{
+      display:flex;align-items:center;gap:6px;
+      padding:7px 15px;background:var(--gold);color:#fff;
+      border:none;border-radius:999px;
+      font-size:.82rem;font-weight:700;cursor:pointer;
+      font-family:'Noto Sans Tamil',serif;
+      box-shadow:0 3px 12px rgba(184,123,46,.35);
+      transition:transform .2s,box-shadow .2s,background .2s;
+      white-space:nowrap;
+    }
+    .dl-btn:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(184,123,46,.45);background:var(--gold-lt)}
+    .dl-btn:active{transform:translateY(0)}
+    .dl-icon{font-size:1rem}
 
-        .lang-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px var(--shadow);
-        }
+    /* ── Hero ─────────────────────────────────────── */
+    .hero{
+      background:var(--forest);
+      padding:46px 24px 40px;
+      text-align:center;
+      position:relative;overflow:hidden;
+    }
 
-        .lang-btn.active {
-            background: var(--header-green);
-            color: var(--allowed-bg);
-        }
+    /* Subtle diagonal textile pattern */
+    .hero::before{
+      content:'';position:absolute;inset:0;
+      background:repeating-linear-gradient(
+        135deg,transparent,transparent 36px,
+        rgba(255,255,255,.018) 36px,rgba(255,255,255,.018) 72px
+      );pointer-events:none;
+    }
 
-        /* Download Button */
-        .download-section {
-            text-align: center;
-            margin: 20px 0;
-        }
+    /* Bottom flourish */
+    .hero::after{
+      content:'❧';position:absolute;bottom:-14px;left:50%;
+      transform:translateX(-50%) rotate(180deg);
+      font-size:2.2rem;color:var(--parch);
+      text-shadow:0 -8px 0 var(--forest);
+      z-index:2;pointer-events:none;
+    }
 
-        .download-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px 35px;
-            background: var(--restricted);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(196, 106, 58, 0.3);
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
+    .hero-inner{position:relative;z-index:1}
 
-        .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(196, 106, 58, 0.4);
-        }
+    .hero-eyebrow{
+      display:inline-block;
+      font-size:.68rem;font-weight:700;letter-spacing:3px;
+      text-transform:uppercase;color:var(--gold-lt);
+      margin-bottom:14px;
+      font-family:'Noto Sans Tamil',serif;
+    }
+    .hero-eyebrow.e-ey{font-family:'Playfair Display',serif;letter-spacing:4px}
 
-        .download-btn:active {
-            transform: translateY(-1px);
-        }
+    .hero h1{
+      font-size:clamp(1.5rem,5vw,2.6rem);font-weight:700;
+      color:#F5EDDB;line-height:1.2;margin-bottom:8px;
+    }
+    .hero h1.t{font-family:'Noto Sans Tamil',serif}
+    .hero h1.e{font-family:'Playfair Display',serif}
 
-        /* Main Grid */
-        .regimen-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 30px 0;
-        }
+    .hero-rule{
+      width:48px;height:2px;background:var(--gold-lt);
+      margin:16px auto;border-radius:2px;opacity:.75;
+    }
 
-        @media (max-width: 768px) {
-            .regimen-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+    .hero h2{
+      font-size:clamp(.95rem,3.2vw,1.5rem);font-weight:400;
+      color:rgba(245,237,219,.65);letter-spacing:2.5px;
+    }
+    .hero h2.t{font-family:'Noto Sans Tamil',serif}
+    .hero h2.e{font-family:'Playfair Display',serif;font-style:italic}
 
-        /* Column Cards */
-        .column {
-            background: white;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 4px 16px var(--shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    /* ── Layout ───────────────────────────────────── */
+    .page{max-width:1110px;margin:0 auto;padding:36px 14px 52px}
 
-        .column:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 24px var(--shadow);
-        }
+    .grid{
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:22px;align-items:start;
+    }
+    @media(max-width:740px){.grid{grid-template-columns:1fr}}
 
-        .column-header {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    /* ── Cards ────────────────────────────────────── */
+    .card{
+      background:var(--card);border-radius:var(--r);
+      overflow:hidden;box-shadow:var(--sh-md);
+      animation:rise .6s cubic-bezier(.22,1,.36,1) both;
+    }
+    .card.avoid{animation-delay:.07s}
+    .card.take {animation-delay:.16s}
 
-        .donts .column-header {
-            color: var(--restricted);
-            border-color: var(--restricted);
-        }
+    @keyframes rise{
+      from{opacity:0;transform:translateY(30px) scale(.975)}
+      to  {opacity:1;transform:translateY(0)   scale(1)}
+    }
 
-        .dos .column-header {
-            color: var(--header-green);
-            border-color: var(--header-green);
-        }
+    /* Card header band */
+    .band{
+      padding:18px 22px;
+      display:flex;align-items:center;gap:12px;
+    }
+    .avoid .band{background:var(--brick)}
+    .take  .band{background:var(--forest)}
 
-        /* Categories */
-        .category {
-            margin-bottom: 25px;
-        }
+    .band-icon{font-size:1.6rem;line-height:1;flex-shrink:0}
 
-        .category-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--header-green);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    .band-text h3{
+      font-size:1.15rem;font-weight:700;
+      color:#F5EDDB;line-height:1.3;
+    }
+    .band-text h3.t{font-family:'Noto Sans Tamil',serif}
+    .band-text h3.e{font-family:'Playfair Display',serif}
 
-        .item-list {
-            list-style: none;
-            padding-left: 0;
-        }
+    /* Card body */
+    .card-body{padding:20px 18px 24px}
 
-        .item-list li {
-            padding: 8px 12px;
-            margin: 6px 0;
-            border-left: 3px solid;
-            background: var(--allowed-bg);
-            border-radius: 0 8px 8px 0;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    /* ── Categories ───────────────────────────────── */
+    .cat{margin-bottom:22px}
+    .cat:last-child{margin-bottom:0}
 
-        .donts .item-list li {
-            border-color: var(--restricted);
-        }
+    .cat-chip{
+      display:inline-flex;align-items:center;gap:5px;
+      padding:3px 11px 3px 7px;border-radius:999px;
+      font-size:.76rem;font-weight:700;letter-spacing:.3px;
+      margin-bottom:9px;
+      font-family:'Noto Sans Tamil',serif;
+    }
+    .cat-chip.e{font-family:'Playfair Display',serif;font-size:.72rem;letter-spacing:.5px}
 
-        .dos .item-list li {
-            border-color: var(--header-green);
-        }
+    .avoid .cat-chip{background:rgba(140,50,20,.09);color:var(--brick)}
+    .take  .cat-chip{background:rgba(27,58,45,.09);color:var(--forest2)}
 
-        .item-list li:hover {
-            padding-left: 18px;
-            background: #fff;
-        }
+    /* Items */
+    .items{list-style:none;display:flex;flex-direction:column;gap:3px}
 
-        /* Footer */
-        .footer {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            margin-top: 30px;
-            box-shadow: 0 4px 16px var(--shadow);
-            border-left: 5px solid var(--header-green);
-        }
+    .items li{
+      padding:7px 12px;border-radius:8px;
+      font-size:.925rem;line-height:1.45;
+      border-left:3px solid transparent;
+      background:rgba(0,0,0,.022);
+      transition:padding-left .18s,background .18s,border-color .18s;
+      cursor:default;
+    }
+    .avoid .items li{border-left-color:rgba(140,50,20,.22)}
+    .take  .items li{border-left-color:rgba(27,58,45,.22)}
 
-        .footer-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--header-green);
-            margin-bottom: 15px;
-        }
+    .avoid .items li:hover{
+      background:rgba(140,50,20,.065);
+      border-left-color:var(--brick);
+      padding-left:17px;
+    }
+    .take .items li:hover{
+      background:rgba(27,58,45,.065);
+      border-left-color:var(--forest2);
+      padding-left:17px;
+    }
 
-        .footer-content {
-            line-height: 1.8;
-            color: var(--text-primary);
-        }
+    /* ── Footer quote ─────────────────────────────── */
+    .quote-wrap{
+      max-width:1110px;margin:0 auto;
+      padding:0 14px 52px;
+      animation:rise .6s .25s cubic-bezier(.22,1,.36,1) both;
+    }
 
-        /* Language-specific hiding */
-        .ta { display: block; }
-        .en { display: none; }
+    .q-card{
+      background:var(--forest);border-radius:var(--r);
+      padding:30px 34px 26px;
+      position:relative;overflow:hidden;
+    }
+    .q-card::before{
+      content:'\201C';
+      position:absolute;top:-14px;left:18px;
+      font-family:'Playfair Display',serif;
+      font-size:7rem;color:rgba(245,237,219,.07);
+      line-height:1;pointer-events:none;
+    }
 
-        body.en .ta { display: none; }
-        body.en .en { display: block; }
+    .q-label{
+      font-size:.67rem;font-weight:700;
+      letter-spacing:3px;text-transform:uppercase;
+      color:var(--gold-lt);margin-bottom:13px;
+    }
+    .q-label.t{font-family:'Noto Sans Tamil',serif;letter-spacing:1.5px}
+    .q-label.e{font-family:'Playfair Display',serif}
 
-        /* Loading state */
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: var(--header-green);
-            font-size: 1.2rem;
-        }
-    </style>
+    .q-text{
+      position:relative;z-index:1;
+      font-size:1rem;line-height:1.88;
+      color:rgba(245,237,219,.88);
+    }
+    .q-text.t{font-family:'Noto Sans Tamil',serif}
+    .q-text.e{font-family:'Playfair Display',serif;font-style:italic;font-size:1.02rem}
+
+    /* ── Responsive tweaks ────────────────────────── */
+    @media(max-width:480px){
+      .tb-brand{display:none}
+      .dl-label{display:none}
+      .dl-btn{padding:7px 11px}
+      .q-card{padding:24px 20px 20px}
+      .band{padding:15px 18px}
+    }
+
+    /* ── Print ────────────────────────────────────── */
+    @media print{
+      .topbar{display:none}
+      .card,.q-card{box-shadow:none!important;border:1px solid #ccc}
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="header-content">
-                <h1 class="title ta">சித்த வைத்தியச்சாலை</h1>
-                <h1 class="title en">Siddha Dispensary</h1>
-                <h2 class="subtitle ta">பத்தியம்</h2>
-                <h2 class="subtitle en">Regimen</h2>
-            </div>
-        </div>
 
-        <!-- Language Toggle -->
-        <div class="lang-toggle">
-            <button class="lang-btn active" onclick="setLanguage('ta', this)">தமிழ்</button>
-            <button class="lang-btn" onclick="setLanguage('en', this)">English</button>
-        </div>
-
-        <!-- Download Button -->
-        <div class="download-section">
-            <button class="download-btn" onclick="downloadPDF()">
-                <span>📄</span>
-                <span class="ta">பத்தியப் பட்டியலைப் பதிவிறக்கவும்</span>
-                <span class="en">Download PDF</span>
-            </button>
-        </div>
-
-        <!-- Main Grid -->
-        <div class="regimen-grid">
-            <!-- DON'Ts Column -->
-            <div class="column donts">
-                <div class="column-header">
-                    <span>❌</span>
-                    <span class="ta">உண்ணக் கூடாதது</span>
-                    <span class="en">Foods to Avoid</span>
-                </div>
-
-                <!-- Tamil Content -->
-                <div class="ta">
-                    <div class="category">
-                        <div class="category-title">🌶️ அடிப்படை</div>
-                        <ul class="item-list">
-                            <li>புளி</li>
-                            <li>எலுமிச்சை</li>
-                            <li>கடுகு</li>
-                            <li>பச்சரிசி</li>
-                            <li>கொள்ளு</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🥕 காய்கறி</div>
-                        <ul class="item-list">
-                            <li>மாங்காய்</li>
-                            <li>தேங்காய்</li>
-                            <li>கொத்தவரை</li>
-                            <li>முள்ளங்கி</li>
-                            <li>பீட்ரூட்</li>
-                            <li>நூக்கல்</li>
-                            <li>உருளை</li>
-                            <li>பூசணிக்காய்</li>
-                            <li>பீர்க்கங்காய்</li>
-                            <li>பாகற்காய்</li>
-                            <li>சுரைக்காய்</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🌿 கீரை</div>
-                        <ul class="item-list">
-                            <li>சீறுக் கீரை</li>
-                            <li>அகத்திக் கீரை</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🍗 மாமிசம்</div>
-                        <ul class="item-list">
-                            <li>கோழி</li>
-                            <li>மீன்</li>
-                            <li>முட்டை</li>
-                            <li>கருவாடு</li>
-                            <li>செம்மறி ஆடு</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🚫 பழக்கங்கள்</div>
-                        <ul class="item-list">
-                            <li>புகை பிடிக்கக் கூடாது</li>
-                            <li>மது, டீ, காபீ அருந்தக் கூடாது</li>
-                            <li>உடல் உறவு தவிர்க்கவும்</li>
-                            <li>வெயிலில் அலைய கூடாது</li>
-                            <li>மிகுந்த காற்றிலும் கூடாது</li>
-                            <li>பட்டினி கூடாது</li>
-                            <li>அதிக உணவும் கூடாது</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- English Content -->
-                <div class="en">
-                    <div class="category">
-                        <div class="category-title">🌶️ Spices & Grains</div>
-                        <ul class="item-list">
-                            <li>Tamarind</li>
-                            <li>Lemon</li>
-                            <li>Mustard seeds</li>
-                            <li>Raw rice (unboiled rice)</li>
-                            <li>Horse gram</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🥕 Vegetables</div>
-                        <ul class="item-list">
-                            <li>Raw mango</li>
-                            <li>Coconut</li>
-                            <li>Cluster beans</li>
-                            <li>Radish</li>
-                            <li>Beetroot</li>
-                            <li>Knol-khol (Kohlrabi)</li>
-                            <li>Potato</li>
-                            <li>Pumpkin</li>
-                            <li>Ridge gourd</li>
-                            <li>Bitter gourd</li>
-                            <li>Bottle gourd</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🌿 Leafy Greens</div>
-                        <ul class="item-list">
-                            <li>Siru keerai (Amaranthus variety)</li>
-                            <li>Agathi keerai</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🍗 Non-Vegetarian Items</div>
-                        <ul class="item-list">
-                            <li>Chicken</li>
-                            <li>Fish</li>
-                            <li>Egg</li>
-                            <li>Dried fish</li>
-                            <li>Mutton (goat meat)</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🚫 Lifestyle Restrictions</div>
-                        <ul class="item-list">
-                            <li>Do not smoke</li>
-                            <li>Avoid alcohol, tea, and coffee</li>
-                            <li>Abstain from sexual intercourse</li>
-                            <li>Avoid excessive exposure to sunlight</li>
-                            <li>Avoid strong wind exposure</li>
-                            <li>Do not fast excessively</li>
-                            <li>Do not overeat</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- DO's Column -->
-            <div class="column dos">
-                <div class="column-header">
-                    <span>✅</span>
-                    <span class="ta">உண்ண வேண்டியவை</span>
-                    <span class="en">Foods to Be Taken</span>
-                </div>
-
-                <!-- Tamil Content -->
-                <div class="ta">
-                    <div class="category">
-                        <div class="category-title">🌾 தானியம்/பருப்பு</div>
-                        <ul class="item-list">
-                            <li>திணை</li>
-                            <li>வரகு</li>
-                            <li>கேழ்வரகு</li>
-                            <li>புழுங்கல் அரிசி</li>
-                            <li>துவரம்</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🥬 காய்கறி</div>
-                        <ul class="item-list">
-                            <li>முருங்கை</li>
-                            <li>வெண்டை</li>
-                            <li>புடலங்காய்</li>
-                            <li>கருணைக்கிழங்கு</li>
-                            <li>கோஸ்</li>
-                            <li>காலிப்போலவர்</li>
-                            <li>அவரைப் பிஞ்சு</li>
-                            <li>கத்திரிப் பிஞ்சு</li>
-                            <li>முருங்கைப் பிஞ்சு</li>
-                            <li>அத்தி பஞ்சு</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🌿 கீரை</div>
-                        <ul class="item-list">
-                            <li>அரைக் கீரை</li>
-                            <li>துத்துவளைக் கீரை</li>
-                            <li>முருங்கைக் கீரை</li>
-                            <li>பொன்னாங்கண்ணிக் கீரை</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🥛 பால்பொருட்கள்</div>
-                        <ul class="item-list">
-                            <li>பால்</li>
-                            <li>மோர்</li>
-                            <li>பசு நெய்</li>
-                            <li>சுக்கு காபீ</li>
-                            <li>தேங்காய்ப் பால்</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🍖 மாமிசம்</div>
-                        <ul class="item-list">
-                            <li>வெள்ளாடு இறைச்சி</li>
-                            <li>காடை</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🍎 பழம்</div>
-                        <ul class="item-list">
-                            <li>புளிப்பு அற்றவைக்கள்</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- English Content -->
-                <div class="en">
-                    <div class="category">
-                        <div class="category-title">🌾 Grains / Pulses</div>
-                        <ul class="item-list">
-                            <li>Foxtail millet</li>
-                            <li>Kodo millet</li>
-                            <li>Finger millet (Ragi)</li>
-                            <li>Parboiled rice</li>
-                            <li>Split pigeon pea (Toor dal)</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🥬 Vegetables</div>
-                        <ul class="item-list">
-                            <li>Drumstick (Moringa pods)</li>
-                            <li>Okra (Lady's finger)</li>
-                            <li>Snake gourd</li>
-                            <li>Elephant foot yam</li>
-                            <li>Cabbage</li>
-                            <li>Cauliflower</li>
-                            <li>Tender broad beans</li>
-                            <li>Tender brinjal (young eggplant)</li>
-                            <li>Tender drumstick</li>
-                            <li>Tender fig (young fig fruit)</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🌿 Leafy Greens</div>
-                        <ul class="item-list">
-                            <li>Arai keerai (Amaranthus variety)</li>
-                            <li>Thoothuvalai keerai</li>
-                            <li>Drumstick leaves</li>
-                            <li>Ponnanganni keerai (Alternanthera sessilis)</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🥛 Dairy Products</div>
-                        <ul class="item-list">
-                            <li>Milk</li>
-                            <li>Buttermilk</li>
-                            <li>Cow's ghee</li>
-                            <li>Sukku coffee (dry ginger herbal drink)</li>
-                            <li>Coconut milk</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🍖 Meat</div>
-                        <ul class="item-list">
-                            <li>Goat meat</li>
-                            <li>Quail</li>
-                        </ul>
-                    </div>
-
-                    <div class="category">
-                        <div class="category-title">🍎 Fruits</div>
-                        <ul class="item-list">
-                            <li>Non-sour fruits</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <div class="footer-title ta">பத்தியம் பற்றி</div>
-            <div class="footer-title en">About Regimen</div>
-            <div class="footer-content ta">
-                பத்தியம் என்பது உணவு கட்டுப்பாடு மட்டும் அல்ல; இது சித்த மருத்துவ சிகிச்சையின் அங்கமாகிய ஒழுக்க நெறி ஆகும். உணவு, வாழ்வியல் முறைகள், உடல்-மனம் சார்ந்த ஒழுக்கம் ஆகிய அனைத்தும் பத்தியத்தில் அடங்கும். பத்தியத்தை முறையாகப் பின்பற்றுதல் மருந்தின் பலனை வெளிப்படுத்தும். பத்திய மீறல் சிகிச்சை விளைவைக் குறைக்கக் கூடும்.
-            </div>
-            <div class="footer-content en">
-                Regimen is not merely a dietary restriction; it is an integral therapeutic discipline within Siddha treatment. It encompasses regulated food, lifestyle conduct, and physical-mental restraint. Proper observance enhances the medicine and supports balanced recovery. Deviation from the regimen may diminish therapeutic benefits.
-            </div>
-        </div>
+  <!-- ═══ TOPBAR ══════════════════════════════════ -->
+  <nav class="topbar" role="navigation">
+    <div class="tb-brand">
+      <span class="t">சித்த வைத்தியச்சாலை</span>
+      <span class="e">Siddha Dispensary</span>
     </div>
+    <div class="tb-right">
+      <div class="lang-pill" role="group" aria-label="Language">
+        <button data-lang="ta" onclick="setLang('ta')">தமிழ்</button>
+        <button data-lang="en" onclick="setLang('en')">English</button>
+      </div>
+      <button class="dl-btn" onclick="downloadPDF()" aria-label="Download PDF">
+        <span class="dl-icon">📄</span>
+        <span class="dl-label t">பதிவிறக்கம்</span>
+        <span class="dl-label e">Download PDF</span>
+      </button>
+    </div>
+  </nav>
 
-    <script>
-        // Language toggle
-        function setLanguage(lang) {
-    document.body.className = lang;
-    
-    // Update button states
-    const buttons = document.querySelectorAll('.lang-btn');
-    buttons.forEach(btn => {
-        btn.classList.remove('active');
-        if ((lang === 'ta' && btn.textContent === 'தமிழ்') || 
-            (lang === 'en' && btn.textContent === 'English')) {
-            btn.classList.add('active');
-        }
-    });
-    
-    // Update HTML lang attribute
-    document.documentElement.lang = lang;
-    
-    // Save preference
-    localStorage.setItem('preferredLanguage', lang);
-}
-    
-            
-            // Update HTML lang attribute
-            document.documentElement.lang = lang;
-            
-            // Save preference
-            localStorage.setItem('preferredLanguage', lang);
-        }
+  <!-- ═══ HERO ════════════════════════════════════ -->
+  <header class="hero" role="banner">
+    <div class="hero-inner">
+      <div class="hero-eyebrow t">சித்த மருத்துவம்</div>
+      <div class="hero-eyebrow e-ey e">Siddha Medicine</div>
 
-        // Load saved language preference
-        window.addEventListener('load', () => {
-            const saved = localStorage.getItem('preferredLanguage');
-            if (saved && saved === 'en') {
-                document.body.className = 'en';
-                document.querySelectorAll('.lang-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.textContent === 'English') {
-                        btn.classList.add('active');
-                    }
-                });
-            }
+      <h1 class="t">சித்த வைத்தியச்சாலை</h1>
+      <h1 class="e">Siddha Dispensary</h1>
+
+      <div class="hero-rule" aria-hidden="true"></div>
+
+      <h2 class="t">பத்தியம்</h2>
+      <h2 class="e">Regimen</h2>
+    </div>
+  </header>
+
+  <!-- ═══ MAIN ═════════════════════════════════════ -->
+  <main class="page">
+    <div class="grid">
+
+      <!-- ─── AVOID COLUMN ──────────────────────── -->
+      <section class="card avoid">
+        <div class="band">
+          <div class="band-icon" aria-hidden="true">❌</div>
+          <div class="band-text">
+            <h3 class="t">உண்ணக் கூடாதது</h3>
+            <h3 class="e">Foods to Avoid</h3>
+          </div>
+        </div>
+        <div class="card-body">
+
+          <!-- Spices & Basics -->
+          <div class="cat">
+            <div class="cat-chip t">🌶️ அடிப்படை</div>
+            <div class="cat-chip e">🌶️ Spices &amp; Grains</div>
+            <ul class="items">
+              <li><span class="t">புளி</span><span class="e">Tamarind</span></li>
+              <li><span class="t">எலுமிச்சை</span><span class="e">Lemon</span></li>
+              <li><span class="t">கடுகு</span><span class="e">Mustard seeds</span></li>
+              <li><span class="t">பச்சரிசி</span><span class="e">Raw rice (unboiled rice)</span></li>
+              <li><span class="t">கொள்ளு</span><span class="e">Horse gram</span></li>
+              <li><span class="t">மொச்சைக்கொட்டை</span><span class="e">Hyacinth beans</span></li>
+            </ul>
+          </div>
+
+          <!-- Vegetables & Roots -->
+          <div class="cat">
+            <div class="cat-chip t">🥕 காய்கறிகள்/கிழங்குகள்</div>
+            <div class="cat-chip e">🥕 Vegetables &amp; Roots</div>
+            <ul class="items">
+              <li><span class="t">மாங்காய்</span><span class="e">Raw mango</span></li>
+              <li><span class="t">தேங்காய்</span><span class="e">Coconut</span></li>
+              <li><span class="t">கொத்தவரை</span><span class="e">Cluster beans</span></li>
+              <li><span class="t">முள்ளங்கி</span><span class="e">Radish</span></li>
+              <li><span class="t">பீட்ரூட்</span><span class="e">Beetroot</span></li>
+              <li><span class="t">நூக்கல்</span><span class="e">Knol-khol (Kohlrabi)</span></li>
+              <li><span class="t">உருளை</span><span class="e">Potato</span></li>
+              <li><span class="t">பூசணிக்காய்</span><span class="e">Pumpkin</span></li>
+              <li><span class="t">பீர்க்கங்காய்</span><span class="e">Ridge gourd</span></li>
+              <li><span class="t">பாகற்காய்</span><span class="e">Bitter gourd</span></li>
+              <li><span class="t">சுரைக்காய்</span><span class="e">Bottle gourd</span></li>
+              <li><span class="t">கேரட்</span><span class="e">Carrot</span></li>
+            </ul>
+          </div>
+
+          <!-- Leafy Greens -->
+          <div class="cat">
+            <div class="cat-chip t">🌿 கீரை</div>
+            <div class="cat-chip e">🌿 Leafy Greens</div>
+            <ul class="items">
+              <li><span class="t">சீறுக் கீரை</span><span class="e">Siru keerai (Amaranthus variety)</span></li>
+              <li><span class="t">அகத்திக் கீரை</span><span class="e">Agathi keerai</span></li>
+            </ul>
+          </div>
+
+          <!-- Non-Veg -->
+          <div class="cat">
+            <div class="cat-chip t">🍗 மாமிசம்</div>
+            <div class="cat-chip e">🍗 Non-Vegetarian Items</div>
+            <ul class="items">
+              <li><span class="t">கோழி</span><span class="e">Chicken</span></li>
+              <li><span class="t">மீன்</span><span class="e">Fish</span></li>
+              <li><span class="t">முட்டை</span><span class="e">Egg</span></li>
+              <li><span class="t">கருவாடு</span><span class="e">Dried fish</span></li>
+              <li><span class="t">செம்மறி ஆடு</span><span class="e">Mutton (goat meat)</span></li>
+            </ul>
+          </div>
+
+          <!-- Lifestyle -->
+          <div class="cat">
+            <div class="cat-chip t">🚫 பழக்கங்கள்</div>
+            <div class="cat-chip e">🚫 Lifestyle Restrictions</div>
+            <ul class="items">
+              <li><span class="t">புகை பிடிக்கக் கூடாது</span><span class="e">Do not smoke</span></li>
+              <li><span class="t">மது, டீ, காபீ அருந்தக் கூடாது</span><span class="e">Avoid alcohol, tea, and coffee</span></li>
+              <li><span class="t">உடல் உறவு தவிர்க்கவும்</span><span class="e">Abstain from sexual intercourse</span></li>
+              <li><span class="t">வெயிலில் அலைய கூடாது</span><span class="e">Avoid excessive exposure to sunlight</span></li>
+              <li><span class="t">மிகுந்த காற்றிலும் கூடாது</span><span class="e">Avoid strong wind exposure</span></li>
+              <li><span class="t">பட்டினி கூடாது</span><span class="e">Do not fast excessively</span></li>
+              <li><span class="t">அதிக உணவும் கூடாது</span><span class="e">Do not overeat</span></li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ─── TAKE COLUMN ───────────────────────── -->
+      <section class="card take">
+        <div class="band">
+          <div class="band-icon" aria-hidden="true">✅</div>
+          <div class="band-text">
+            <h3 class="t">உண்ண வேண்டியவை</h3>
+            <h3 class="e">Foods to Be Taken</h3>
+          </div>
+        </div>
+        <div class="card-body">
+
+          <!-- Spices (previously MISSING) -->
+          <div class="cat">
+            <div class="cat-chip t">🌶️ மசாலா</div>
+            <div class="cat-chip e">🌶️ Spices</div>
+            <ul class="items">
+              <li><span class="t">இஞ்சி</span><span class="e">Ginger</span></li>
+              <li><span class="t">பூண்டு</span><span class="e">Garlic</span></li>
+              <li><span class="t">திப்பிலி</span><span class="e">Long pepper</span></li>
+            </ul>
+          </div>
+
+          <!-- Grains / Pulses -->
+          <div class="cat">
+            <div class="cat-chip t">🌾 தானியம்/பருப்பு</div>
+            <div class="cat-chip e">🌾 Grains / Pulses</div>
+            <ul class="items">
+              <li><span class="t">திணை</span><span class="e">Foxtail millet</span></li>
+              <li><span class="t">வரகு</span><span class="e">Kodo millet</span></li>
+              <li><span class="t">கேழ்வரகு</span><span class="e">Finger millet (Ragi)</span></li>
+              <li><span class="t">புழுங்கல் அரிசி</span><span class="e">Parboiled rice</span></li>
+              <li><span class="t">துவரம்</span><span class="e">Split pigeon pea (Toor dal)</span></li>
+            </ul>
+          </div>
+
+          <!-- Vegetables -->
+          <div class="cat">
+            <div class="cat-chip t">🥬 காய்கறி</div>
+            <div class="cat-chip e">🥬 Vegetables</div>
+            <ul class="items">
+              <li><span class="t">முருங்கை</span><span class="e">Drumstick (Moringa pods)</span></li>
+              <li><span class="t">வெண்டை</span><span class="e">Okra (Lady's finger)</span></li>
+              <li><span class="t">புடலங்காய்</span><span class="e">Snake gourd</span></li>
+              <li><span class="t">கருணைக்கிழங்கு</span><span class="e">Elephant foot yam</span></li>
+              <li><span class="t">கோஸ்</span><span class="e">Cabbage</span></li>
+              <li><span class="t">காலிப்போலவர்</span><span class="e">Cauliflower</span></li>
+              <li><span class="t">அவரைப் பிஞ்சு</span><span class="e">Tender broad beans</span></li>
+              <li><span class="t">கத்திரிப் பிஞ்சு</span><span class="e">Tender brinjal (young eggplant)</span></li>
+              <li><span class="t">முருங்கைப் பிஞ்சு</span><span class="e">Tender drumstick</span></li>
+              <li><span class="t">அத்தி பஞ்சு</span><span class="e">Tender fig (young fig fruit)</span></li>
+            </ul>
+          </div>
+
+          <!-- Leafy Greens -->
+          <div class="cat">
+            <div class="cat-chip t">🌿 கீரை</div>
+            <div class="cat-chip e">🌿 Leafy Greens</div>
+            <ul class="items">
+              <li><span class="t">அரைக் கீரை</span><span class="e">Arai keerai (Amaranthus variety)</span></li>
+              <li><span class="t">துத்துவளைக் கீரை</span><span class="e">Thoothuvalai keerai</span></li>
+              <li><span class="t">முருங்கைக் கீரை</span><span class="e">Drumstick leaves</span></li>
+              <li><span class="t">பொன்னாங்கண்ணிக் கீரை</span><span class="e">Ponnanganni keerai (Alternanthera sessilis)</span></li>
+            </ul>
+          </div>
+
+          <!-- Dairy -->
+          <div class="cat">
+            <div class="cat-chip t">🥛 பால்பொருட்கள்</div>
+            <div class="cat-chip e">🥛 Dairy Products</div>
+            <ul class="items">
+              <li><span class="t">பால்</span><span class="e">Milk</span></li>
+              <li><span class="t">மோர்</span><span class="e">Buttermilk</span></li>
+              <li><span class="t">பசு நெய்</span><span class="e">Cow's ghee</span></li>
+              <li><span class="t">சுக்கு காபீ</span><span class="e">Sukku coffee (dry ginger herbal drink)</span></li>
+              <li><span class="t">தேங்காய்ப் பால்</span><span class="e">Coconut milk</span></li>
+            </ul>
+          </div>
+
+          <!-- Meat -->
+          <div class="cat">
+            <div class="cat-chip t">🍖 மாமிசம்</div>
+            <div class="cat-chip e">🍖 Meat</div>
+            <ul class="items">
+              <li><span class="t">வெள்ளாடு இறைச்சி</span><span class="e">Goat meat</span></li>
+              <li><span class="t">காடை</span><span class="e">Quail</span></li>
+            </ul>
+          </div>
+
+          <!-- Fruits -->
+          <div class="cat">
+            <div class="cat-chip t">🍎 பழம்</div>
+            <div class="cat-chip e">🍎 Fruits</div>
+            <ul class="items">
+              <li><span class="t">புளிப்பு அற்றவைக்கள்</span><span class="e">Non-sour fruits</span></li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ═══ QUOTE FOOTER ══════════════════════════════ -->
+  <div class="quote-wrap" role="complementary">
+    <div class="q-card">
+      <div class="q-label t">பத்தியம் பற்றி</div>
+      <div class="q-label e">About Regimen</div>
+      <p class="q-text t">
+        நோயை மிகுக்கக் கூடியவற்றையும் மருந்தை முறிக்கக்கூடியனவற்றையும் தவிர்தலே பத்தியம்.
+      </p>
+      <p class="q-text e">
+        Pathiyam is the practice of avoiding things that can aggravate the disease and those that can interfere with or nullify the effect of the medicine.
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══ SCRIPTS ══════════════════════════════════ -->
+  <script>
+    // ── Init button state on load ──────────────────
+    (function(){
+      var lang = document.documentElement.getAttribute('data-lang') || 'ta';
+      document.querySelectorAll('.lang-pill button').forEach(function(btn){
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+    })();
+
+    // ── Language toggle ────────────────────────────
+    function setLang(lang) {
+      var html = document.documentElement;
+      if (html.getAttribute('data-lang') === lang) return;
+
+      // Fade out
+      document.body.classList.add('fading');
+
+      setTimeout(function(){
+        html.setAttribute('data-lang', lang);
+        html.lang = lang;
+        document.body.classList.remove('fading');
+
+        document.querySelectorAll('.lang-pill button').forEach(function(btn){
+          btn.classList.toggle('active', btn.dataset.lang === lang);
         });
 
-        // Download PDF
-        function downloadPDF() {
-            const link = document.createElement('a');
-            link.href = 'pathiyam-regimen.pdf';
-            link.download = 'pathiyam-regimen.pdf';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
+        localStorage.setItem('pathiyam-lang', lang);
+      }, 140);
+    }
 
-        // Register service worker for PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registered:', registration);
-                    })
-                    .catch(err => {
-                        console.log('ServiceWorker registration failed:', err);
-                    });
-            });
-        }
-    </script>
+    // ── PDF download ───────────────────────────────
+    function downloadPDF() {
+      var a = document.createElement('a');
+      a.href = 'pathiyam-regimen.pdf';
+      a.download = 'pathiyam-regimen.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    // ── Service Worker ─────────────────────────────
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function(){
+        navigator.serviceWorker.register('service-worker.js')
+          .then(function(r){ console.log('SW registered:', r.scope); })
+          .catch(function(e){ console.warn('SW failed:', e); });
+      });
+    }
+  </script>
 </body>
 </html>
